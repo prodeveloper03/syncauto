@@ -1,12 +1,9 @@
 package com.example.syncauto
 
-import android.os.Build
+
 import android.os.Bundle
-import android.view.Window
-import android.widget.EdgeEffect
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.syncauto.ui.navigation.BottomNavBar
 import com.example.syncauto.ui.splash.SplashScreen
