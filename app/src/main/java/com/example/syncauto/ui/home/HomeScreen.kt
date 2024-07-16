@@ -1,9 +1,5 @@
 package com.example.syncauto.ui.home
-
-import android.os.Build
-import androidx.activity.compose.LocalActivityResultRegistryOwner.current
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,12 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.example.syncauto.utils.getCurrentDate
 import com.example.syncauto.utils.getCurrentTime
 import kotlinx.coroutines.delay
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Formatter
-import java.util.Locale
 
 
 @Composable
@@ -41,9 +31,14 @@ fun HomeScreen() {
     var currentTime by remember { mutableStateOf(getCurrentTime()) }
     var currentDate by remember { mutableStateOf(getCurrentDate()) }
     var expenseType by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf("") }
+    var selectedCurrency by remember { mutableStateOf("INR") }
+
 
     // List of expense type
     val expenseTypes = listOf("Food", "Transport", "Utilities", "Entertainment", "Rent", "Others")
+    // List of Currencies
+    val currencies = listOf("USD", "EUR", "INR", "JPY", "GBP")
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -86,6 +81,17 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AmountInput(
+            amount = amount,
+            onAmountChange = { amount = it },
+            selectedCurrency = selectedCurrency,
+            onCurrencySelected = { selectedCurrency = it },
+            currencies = currencies,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
