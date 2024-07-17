@@ -33,12 +33,15 @@ fun HomeScreen() {
     var expenseType by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var selectedCurrency by remember { mutableStateOf("INR") }
+    var selectedPaymentMethod by remember { mutableStateOf("") }
 
 
     // List of expense type
     val expenseTypes = listOf("Food", "Transport", "Utilities", "Entertainment", "Rent", "Others")
     // List of Currencies
     val currencies = listOf("USD", "EUR", "INR", "JPY", "GBP")
+    // List of Payment methods
+    val paymentMethods = listOf("UPI","Cash","Debit Card","Credit Card")
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -93,5 +96,22 @@ fun HomeScreen() {
             currencies = currencies,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            paymentMethods.forEach { paymentMethod ->
+                Chip(
+                    text = paymentMethod,
+                    isSelected = paymentMethod == selectedPaymentMethod,
+                    onSelectedChanged = { selectedPaymentMethod = it },
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+            }
+        }
+
     }
 }
