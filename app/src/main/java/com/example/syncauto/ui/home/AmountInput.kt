@@ -1,7 +1,10 @@
 package com.example.syncauto.ui.home
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DropdownMenuItem
@@ -15,9 +18,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,8 +37,12 @@ fun AmountInput(
     var textFieldValue by remember { mutableStateOf(TextFieldValue(amount)) }
 
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // Text field for entering the amount
         TextField(
             value = textFieldValue,
             onValueChange = {
@@ -45,12 +52,15 @@ fun AmountInput(
             label = { Text("Amount") },
             modifier = Modifier
                 .weight(1f)
-                .padding(end = 4.dp)
+                .height(56.dp) // Ensuring consistent height with the dropdown
         )
 
+
+
+        // Currency dropdown menu
         ExposedDropdownMenuBox(
             expanded = currencyDropdownExpanded,
-            onExpandedChange = { currencyDropdownExpanded = it }
+            onExpandedChange = { currencyDropdownExpanded = !currencyDropdownExpanded }
         ) {
             TextField(
                 value = selectedCurrency,
@@ -61,14 +71,13 @@ fun AmountInput(
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = currencyDropdownExpanded)
                 },
                 modifier = Modifier
-                    .menuAnchor()
                     .width(100.dp)
+                    .height(56.dp) // Matching height with the amount input
             )
 
             ExposedDropdownMenu(
                 expanded = currencyDropdownExpanded,
-                onDismissRequest = { currencyDropdownExpanded = false },
-                modifier = Modifier.width(60.dp)
+                onDismissRequest = { currencyDropdownExpanded = false }
             ) {
                 currencies.forEach { currency ->
                     DropdownMenuItem(
