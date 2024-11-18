@@ -1,4 +1,5 @@
 package com.example.syncauto.ui.home
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,8 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.syncauto.ui.note.UserNote
+import com.example.syncauto.ui.post.SyncButton
 import com.example.syncauto.utils.getCurrentDate
 import com.example.syncauto.utils.getCurrentTime
 import kotlinx.coroutines.delay
@@ -34,6 +38,8 @@ fun HomeScreen() {
     var amount by remember { mutableStateOf("") }
     var selectedCurrency by remember { mutableStateOf("INR") }
     var selectedPaymentMethod by remember { mutableStateOf("") }
+    var userNoteText by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
 
     // List of expense type
@@ -57,7 +63,7 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Display the current date and time at the top
+        // Display the current date and time at the toptrat
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,6 +117,33 @@ fun HomeScreen() {
                     modifier = Modifier.padding(end = 8.dp)
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(26.dp))
+
+        Row (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+
+        ){
+            UserNote(
+                text = userNoteText,
+                onTextChange = {userNoteText = it},
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(26.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+           SyncButton(
+               text = "Sync Data",
+               onClick = {
+                   Toast.makeText(context, "Button clicked!", Toast.LENGTH_SHORT).show()},
+               modifier = Modifier.padding(16.dp)
+           )
         }
 
     }
