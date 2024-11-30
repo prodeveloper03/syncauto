@@ -16,8 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.syncauto.ui.navigation.BottomNavBar
+import com.example.syncauto.ui.navigation.NavGraph
+import com.example.syncauto.ui.navigation.Screen
+import com.example.syncauto.ui.navigation.currentDestination
 import com.example.syncauto.ui.splash.SplashScreen
 import com.example.syncauto.ui.theme.SyncautoTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,23 +37,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    var showSplash by remember { mutableStateOf(true) }
+    var showBottomBar by remember { mutableStateOf(false) } // Control visibility of bottom bar
 
-    LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(2000L) // 2 seconds
-        showSplash = false
-    }
-
-    if (showSplash) {
-        SplashScreen()
-    } else {
-        Scaffold(
-            bottomBar = { BottomNavBar(navController = navController) }
-        ) { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
-               com.example.syncauto.ui.navigation.NavGraph(navController = navController)
+    Scaffold(
+        bottomBar = {
+            if (showBottomBar) {
+                BottomNavBar(navController = navController)
             }
+        }
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            NavGraph(
+                navController = navController,
+                onScreenChange = { screen ->
+                    // Update bottom bar visibility based on the current screen
+                    showBottomBar = screen != Screen.SplashScreen.route && screen != Screen.LoginScreen.route
+                }
+            )
         }
     }
 }
-

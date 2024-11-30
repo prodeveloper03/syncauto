@@ -29,7 +29,15 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    onNavigateToLogin : () -> Unit,
+    onSplashEnd : () -> Unit
+) {
+    LaunchedEffect(Unit) {
+        delay(2000L) // Delay for splash screen display
+        onSplashEnd() // Call this function to end splash screen
+        onNavigateToLogin()
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,6 +51,10 @@ fun SplashScreen() {
         )
 
 
+    }
+    LaunchedEffect(Unit) {
+        delay(2000L)
+        onNavigateToLogin()
     }
 }
 
